@@ -2,9 +2,8 @@ import os
 import ctypes
 import sys
 nope = ["System Volume Information","$RECYCLE.BIN"]
-dirs = ["d","e","f"]
-insert_dirs = ["H:\\downloads\\Complete\\..Done\\"]
-
+dirs = ["d","e","f","g"]
+insert_dirs = ["H:\\downloads\\Complete\\..done\\"]
 def getFolderSize(folder):
     total_size = os.path.getsize(folder)
     for item in os.listdir(folder):
@@ -85,12 +84,24 @@ for x in dirs:
             alpha_series_cur = alpha_series_cur[1:]
     finished[x] = this_drive
 
+sizes = {}
+for x in dirs:
+    sizes[x] = 0
+
 operations = []
 for x in finished:
     for y in finished[x]:
         if not os.path.isdir(x+":\\"+y):
             operations.append((y,x))
+            sizes[x] += series[y]
 
 # make this do stuff instead
 for x in operations:
     print x
+
+print "To move:"
+total = 0
+for x in sizes:
+    print x,str(sizes[x]/1073741824.0)+"GB"
+    total += sizes[x]
+print "Total:",str(total//1073741824.0)+"GB"
